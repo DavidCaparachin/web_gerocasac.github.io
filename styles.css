@@ -2009,12 +2009,24 @@ body.menu-open {
   height: 42px;
 }
 
+.whatsapp-contact-card {
+  text-align: center;
+}
+
+.whatsapp-contact-card .btn-danger {
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .whatsapp-link {
   margin-top: 10px;
   color: #4e9b3f;
   font-size: 11px;
   text-decoration: none;
   display: inline-flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .contact-map-section {
