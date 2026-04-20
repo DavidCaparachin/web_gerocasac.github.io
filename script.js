@@ -107,7 +107,7 @@ const setupProductQuoteButtons = () => {
     if (!card) return;
 
     const message = getQuoteMessageFromCard(card);
-    const whatsappUrl = `https://wa.me/51987654321?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/51920453610?text=${encodeURIComponent(message)}`;
 
     button.setAttribute("href", whatsappUrl);
     button.setAttribute("target", "_blank");
@@ -238,3 +238,4 @@ if (page === "productos") {
 }
 
 setupSocialPointerEffect();
+
