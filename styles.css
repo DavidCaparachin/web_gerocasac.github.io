@@ -53,13 +53,17 @@ body {
 }
 
 .brand {
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
   color: inherit;
+}
+
+.brand-logo {
+  display: block;
+  width: auto;
+  height: 34px;
+  object-fit: contain;
 }
 
 .main-nav {
@@ -597,12 +601,12 @@ body {
   padding: 64px 0;
 }
 
-.footer h4 {
-  margin: 0 0 20px;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 32px;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
+.footer-logo {
+  display: block;
+  width: auto;
+  height: 42px;
+  margin: 0 0 18px;
+  object-fit: contain;
 }
 
 .footer h5 {
@@ -1118,7 +1122,11 @@ body {
   }
 
   .brand {
-    font-size: 18px;
+    max-width: 150px;
+  }
+
+  .brand-logo {
+    height: 28px;
   }
 
   .menu-toggle {
@@ -1247,8 +1255,8 @@ body {
     font-size: 17px;
   }
 
-  .footer h4 {
-    font-size: 26px;
+  .footer-logo {
+    height: 34px;
   }
 
   .footer-bottom {
