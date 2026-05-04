@@ -1327,9 +1327,11 @@ body {
   }
 
   .hero.hero--carousel {
-    height: clamp(360px, 68vw, 560px);
+    height: clamp(210px, 48vw, 320px);
     min-height: 0;
     background-position: center center;
+    margin-bottom: 76px;
+    overflow: visible;
   }
 
   .hero-content {
@@ -1359,11 +1361,11 @@ body {
   }
 
   .hero-carousel-dots {
-    bottom: 74px;
+    bottom: 10px;
   }
 
   .hero-carousel-cta {
-    bottom: 14px;
+    bottom: -66px;
   }
 
   .hero-carousel-cta .btn-primary {

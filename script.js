@@ -210,6 +210,29 @@ const setupHomeHeroCarousel = () => {
     });
   }
 
+  let touchStartX = 0;
+
+  hero.addEventListener(
+    "touchstart",
+    (event) => {
+      touchStartX = event.changedTouches[0]?.clientX || 0;
+    },
+    { passive: true }
+  );
+
+  hero.addEventListener(
+    "touchend",
+    (event) => {
+      const touchEndX = event.changedTouches[0]?.clientX || 0;
+      const deltaX = touchEndX - touchStartX;
+      if (Math.abs(deltaX) < 45) return;
+
+      renderSlide(deltaX > 0 ? currentSlide - 1 : currentSlide + 1);
+      resetAutoplay();
+    },
+    { passive: true }
+  );
+
   renderSlide(0);
   resetAutoplay();
 };
