@@ -144,9 +144,11 @@ const setupHomeHeroCarousel = () => {
   const hero = document.querySelector(".hero");
   if (!hero) return;
   hero.classList.add("hero--carousel");
+  const carouselImage = hero.querySelector(".hero-carousel-image");
   const prevButton = hero.querySelector("[data-carousel-prev]");
   const nextButton = hero.querySelector("[data-carousel-next]");
   const dotsContainer = hero.querySelector("[data-carousel-dots]");
+  if (!carouselImage) return;
 
   const slides = [
     "./src/img/carrucel/carrucel_1.webp",
@@ -168,7 +170,7 @@ const setupHomeHeroCarousel = () => {
 
   const renderSlide = (index) => {
     currentSlide = (index + slides.length) % slides.length;
-    hero.style.backgroundImage = `url("${slides[currentSlide]}")`;
+    carouselImage.setAttribute("src", slides[currentSlide]);
     dots.forEach((dot, dotIndex) => {
       dot.classList.toggle("active", dotIndex === currentSlide);
     });

@@ -269,13 +269,25 @@ body {
 }
 
 .hero.hero--carousel {
-  height: clamp(560px, 46vw, 900px);
   min-height: 0;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
+  height: auto;
+  background-image: none;
   background-color: #f3f5f8;
-  overflow: hidden;
+  overflow: visible;
+}
+
+.hero-carousel-image {
+  display: none;
+}
+
+.hero.hero--carousel .hero-carousel-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: clamp(560px, 46vw, 900px);
+  object-fit: contain;
+  object-position: center;
+  background: #f3f5f8;
 }
 
 .hero-overlay {
@@ -1190,9 +1202,12 @@ body {
   }
 
   .hero.hero--carousel {
-    height: clamp(460px, 62vw, 700px);
+    height: auto;
     min-height: 0;
-    background-position: center center;
+  }
+
+  .hero.hero--carousel .hero-carousel-image {
+    max-height: clamp(460px, 62vw, 700px);
   }
 
   .hero h1 {
@@ -1327,11 +1342,14 @@ body {
   }
 
   .hero.hero--carousel {
-    height: clamp(210px, 48vw, 320px);
+    height: auto;
     min-height: 0;
-    background-position: center center;
     margin-bottom: 76px;
     overflow: visible;
+  }
+
+  .hero.hero--carousel .hero-carousel-image {
+    max-height: none;
   }
 
   .hero-content {
