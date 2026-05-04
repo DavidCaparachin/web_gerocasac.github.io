@@ -175,8 +175,14 @@ const setupHomeHeroCarousel = () => {
   zoomModal.setAttribute("aria-modal", "true");
   zoomModal.setAttribute("aria-label", "Imagen ampliada del carrusel");
   zoomModal.innerHTML = `
-    <button class="carousel-zoom-close" type="button" aria-label="Cerrar imagen ampliada">&times;</button>
-    <img class="carousel-zoom-image" src="" alt="Imagen ampliada del carrusel" />
+    <div class="carousel-zoom-toolbar">
+      <span>Imagen ampliada</span>
+      <button class="carousel-zoom-close" type="button" aria-label="Cerrar imagen ampliada">&times;</button>
+    </div>
+    <div class="carousel-zoom-stage">
+      <img class="carousel-zoom-image" src="" alt="Imagen ampliada del carrusel" />
+    </div>
+    <p class="carousel-zoom-help">Desliza para moverte. Pellizca la pantalla para acercar.</p>
   `;
   document.body.appendChild(zoomModal);
 
@@ -239,7 +245,15 @@ const setupHomeHeroCarousel = () => {
     });
   }
 
-  carouselImage.addEventListener("dblclick", openZoom);
+  const isCarouselControl = (target) =>
+    target.closest(
+      ".hero-carousel-arrow, .hero-carousel-dot, .hero-carousel-cta, .carousel-zoom-modal"
+    );
+
+  hero.addEventListener("dblclick", (event) => {
+    if (isCarouselControl(event.target)) return;
+    openZoom();
+  });
 
   if (zoomClose) {
     zoomClose.addEventListener("click", closeZoom);
@@ -271,15 +285,15 @@ const setupHomeHeroCarousel = () => {
       const touchEndX = event.changedTouches[0]?.clientX || 0;
       const deltaX = touchEndX - touchStartX;
       const now = Date.now();
-      const tappedImage = event.target === carouselImage;
+      const tappedCarousel = !isCarouselControl(event.target);
 
-      if (tappedImage && Math.abs(deltaX) < 12 && now - lastTapTime < 320) {
+      if (tappedCarousel && Math.abs(deltaX) < 12 && now - lastTapTime < 360) {
         openZoom();
         lastTapTime = 0;
         return;
       }
 
-      if (tappedImage) lastTapTime = now;
+      if (tappedCarousel && Math.abs(deltaX) < 12) lastTapTime = now;
       if (Math.abs(deltaX) < 45) return;
 
       renderSlide(deltaX > 0 ? currentSlide - 1 : currentSlide + 1);
