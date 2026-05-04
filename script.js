@@ -9,12 +9,18 @@ const pageLinks = {
 };
 
 const productTypeAliases = {
-  auto: "auto",
-  camioneta: "camioneta",
-  van: "camioneta",
-  suv: "suv",
-  moto: "moto",
-  camion: "camion",
+  agricola: "agricola",
+  forestales: "forestales",
+  montacarga: "montacarga",
+  "camion-trailer": "camion-trailer",
+  camiontrailer: "camion-trailer",
+  volquetes: "volquetes",
+  "volquetes-linea-tbr-otr": "volquetes",
+  cargador: "cargador-frontal",
+  "cargador-frontal": "cargador-frontal",
+  cargadorfrontal: "cargador-frontal",
+  aro: "aros",
+  aros: "aros",
 };
 
 const getProductKeyFromType = (type) => {
@@ -132,6 +138,82 @@ const setupSocialPointerEffect = () => {
   });
 };
 
+const setupHomeHeroCarousel = () => {
+  if (page !== "inicio") return;
+
+  const hero = document.querySelector(".hero");
+  if (!hero) return;
+  hero.classList.add("hero--carousel");
+  const prevButton = hero.querySelector("[data-carousel-prev]");
+  const nextButton = hero.querySelector("[data-carousel-next]");
+  const dotsContainer = hero.querySelector("[data-carousel-dots]");
+
+  const slides = [
+    "./src/img/carrucel/carrucel_1.webp",
+    "./src/img/carrucel/carrucel_2.webp",
+    "./src/img/carrucel/carrucel_3.webp",
+    "./src/img/carrucel/carrucel_4.webp",
+  ];
+
+  if (!slides.length) return;
+
+  slides.forEach((src) => {
+    const image = new Image();
+    image.src = src;
+  });
+
+  let currentSlide = 0;
+  let autoplayId = null;
+  const dots = [];
+
+  const renderSlide = (index) => {
+    currentSlide = (index + slides.length) % slides.length;
+    hero.style.backgroundImage = `url("${slides[currentSlide]}")`;
+    dots.forEach((dot, dotIndex) => {
+      dot.classList.toggle("active", dotIndex === currentSlide);
+    });
+  };
+
+  const resetAutoplay = () => {
+    if (autoplayId) window.clearInterval(autoplayId);
+    autoplayId = window.setInterval(() => {
+      renderSlide(currentSlide + 1);
+    }, 4500);
+  };
+
+  if (dotsContainer) {
+    slides.forEach((_, index) => {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "hero-carousel-dot";
+      dot.setAttribute("aria-label", `Ir a imagen ${index + 1}`);
+      dot.addEventListener("click", () => {
+        renderSlide(index);
+        resetAutoplay();
+      });
+      dotsContainer.appendChild(dot);
+      dots.push(dot);
+    });
+  }
+
+  if (prevButton) {
+    prevButton.addEventListener("click", () => {
+      renderSlide(currentSlide - 1);
+      resetAutoplay();
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener("click", () => {
+      renderSlide(currentSlide + 1);
+      resetAutoplay();
+    });
+  }
+
+  renderSlide(0);
+  resetAutoplay();
+};
+
 const currentHref = pageLinks[page];
 
 if (currentHref) {
@@ -238,4 +320,5 @@ if (page === "productos") {
 }
 
 setupSocialPointerEffect();
+setupHomeHeroCarousel();
 
