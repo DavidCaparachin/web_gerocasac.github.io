@@ -2496,6 +2496,13 @@ body.menu-open {
     min-height: 420px;
   }
 
+  .coverage-map {
+    min-height: 220px;
+    background-size: contain;
+    background-position: center;
+    background-color: #f3f5f8;
+  }
+
   .story-visual {
     min-height: 240px;
   }
