@@ -167,6 +167,33 @@ const setupHomeHeroCarousel = () => {
   let currentSlide = 0;
   let autoplayId = null;
   const dots = [];
+  let lastTapTime = 0;
+
+  const zoomModal = document.createElement("div");
+  zoomModal.className = "carousel-zoom-modal";
+  zoomModal.setAttribute("role", "dialog");
+  zoomModal.setAttribute("aria-modal", "true");
+  zoomModal.setAttribute("aria-label", "Imagen ampliada del carrusel");
+  zoomModal.innerHTML = `
+    <button class="carousel-zoom-close" type="button" aria-label="Cerrar imagen ampliada">&times;</button>
+    <img class="carousel-zoom-image" src="" alt="Imagen ampliada del carrusel" />
+  `;
+  document.body.appendChild(zoomModal);
+
+  const zoomImage = zoomModal.querySelector(".carousel-zoom-image");
+  const zoomClose = zoomModal.querySelector(".carousel-zoom-close");
+
+  const closeZoom = () => {
+    zoomModal.classList.remove("is-open");
+    document.body.style.overflow = "";
+  };
+
+  const openZoom = () => {
+    if (!zoomImage) return;
+    zoomImage.setAttribute("src", slides[currentSlide]);
+    zoomModal.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+  };
 
   const renderSlide = (index) => {
     currentSlide = (index + slides.length) % slides.length;
@@ -212,6 +239,22 @@ const setupHomeHeroCarousel = () => {
     });
   }
 
+  carouselImage.addEventListener("dblclick", openZoom);
+
+  if (zoomClose) {
+    zoomClose.addEventListener("click", closeZoom);
+  }
+
+  zoomModal.addEventListener("click", (event) => {
+    if (event.target === zoomModal) closeZoom();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && zoomModal.classList.contains("is-open")) {
+      closeZoom();
+    }
+  });
+
   let touchStartX = 0;
 
   hero.addEventListener(
@@ -227,6 +270,16 @@ const setupHomeHeroCarousel = () => {
     (event) => {
       const touchEndX = event.changedTouches[0]?.clientX || 0;
       const deltaX = touchEndX - touchStartX;
+      const now = Date.now();
+      const tappedImage = event.target === carouselImage;
+
+      if (tappedImage && Math.abs(deltaX) < 12 && now - lastTapTime < 320) {
+        openZoom();
+        lastTapTime = 0;
+        return;
+      }
+
+      if (tappedImage) lastTapTime = now;
       if (Math.abs(deltaX) < 45) return;
 
       renderSlide(deltaX > 0 ? currentSlide - 1 : currentSlide + 1);
